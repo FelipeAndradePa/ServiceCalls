@@ -1,0 +1,10 @@
+.button {
+    margin-left: 40px;
+    margin-top: 42px;
+    border: none;
+    background-color: white;
+    font-size: 15px;
+}
+.link:hover {
+    color: blue;
+}

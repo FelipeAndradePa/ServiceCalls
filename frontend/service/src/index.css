@@ -1,0 +1,5 @@
+/* Exemplo de importação correta no arquivo styles.scss */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
