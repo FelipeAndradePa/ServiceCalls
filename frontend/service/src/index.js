@@ -3,6 +3,11 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faCheck, faBarsProgress, faPlus } from '@fortawesome/free-solid-svg-icons';
+
+//registra o ícone no core do font awesome, permitindo usar em toda a aplicação
+library.add(faCheck, faBarsProgress, faPlus);
 
 const root = ReactDOM.createRoot(document.getElementById('root')); //cria o root da página renderizada
 root.render(  

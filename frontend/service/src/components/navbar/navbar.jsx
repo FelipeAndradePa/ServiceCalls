@@ -7,11 +7,12 @@ class Navbar extends React.Component {
     render() {
         return (
             <nav className='bg-white'>
-                <div className='mx-auto max-w-7xl px-2 sm:px-6 lg:px-8'>
+                <div className='mx-auto my-5 max-w-7xl px-2 sm:px-6 lg:px-8'>
                     <div className='flex flex-col space-y-4'>
-                        <Button path='/' name='Novos Chamados' icon=></Button>
-                        <Button path='views/progress/progress' name='Chamados em Andamento' icon='faBarsProgress'></Button>
-                        <Button path='views/finalized/finalized' name='Chamados Finalizados' icon='faCheck'></Button>
+                        <img src="" alt="" />
+                        <Button path='/' name='Novos' icon='plus'></Button>
+                        <Button path='views/progress/progress' name='Em Andamento' icon='bars-progress'></Button>
+                        <Button path='views/finalized/finalized' name='Finalizados' icon='check'></Button>
                     </div>
                 </div>
             </nav>

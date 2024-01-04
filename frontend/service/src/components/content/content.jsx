@@ -10,11 +10,11 @@ class Content extends React.Component {
     render() {
         return (
             <Router>
-                <div className='min-h-screen grid grid-cols-9 gap-4'>
-                    <div className='col-span-1'>
+                <div className='min-h-screen grid grid-cols-10 gap-4'>
+                    <div className='col-span-2'>
                         <Navbar/>
                     </div>
-                    <div className='col-span-8 flex justify-center'>
+                    <div className='my-8 col-span-8 flex justify-start'>
                         <Routes>
                             <Route path='/views/finalized/finalized' element={<Finalized />}/>
                             <Route path='/views/progress/progress' element={<Progress />}/>
