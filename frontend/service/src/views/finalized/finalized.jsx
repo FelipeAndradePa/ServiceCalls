@@ -5,7 +5,9 @@ import './finalized.css';
 class Finalized extends React.Component {
     render() {
         return(
-            <Title title='Chamados Finalizados'></Title>
+            <div className='font-sans text-xl'>
+                <Title title='Chamados Finalizados'></Title>
+            </div>
         )
     }
 }

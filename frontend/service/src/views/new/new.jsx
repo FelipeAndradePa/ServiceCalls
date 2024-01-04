@@ -5,7 +5,9 @@ import './new.css';
 class New extends React.Component {
     render() {
         return(
-            <Title title='Novos Chamados'></Title>
+            <div className='font-sans text-xl'>
+                <Title title='Novos Chamados'></Title>
+            </div>
         )
     }
 }

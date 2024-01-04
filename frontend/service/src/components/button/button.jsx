@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class Button extends React.Component {
     render() {
-        return <button className="flex flex-row">
+        return <button className="inline-block align-middle">
                     <FontAwesomeIcon icon={this.props.icon} />
                     <Link className="text-base ms-2 link" to={this.props.path}> {this.props.name} </Link>
                 </button>
