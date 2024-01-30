@@ -1,16 +1,14 @@
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 
-async function tokenGenerator(user) {
-    const keySize = 32;
-    const secretKey = crypto.randomBytes(keySize).toString('hex');
+const keySize = 32;
+const secretKey = crypto.randomBytes(keySize).toString('hex');
 
-    const token = jwt.sign({user}, secretKey, {expiresIn: '1h'});
-
-    return token;
+function tokenGenerator(user) {
+    return jwt.sign({user}, secretKey, {expiresIn: '1h'});
 }
 
-async function authenticateToken(req, res, next) {
+const authenticateToken = (req, res, next) => {
     const token = req.header('Authorization');
   
     if (!token) return res.status(401).json({ error: 'Token ausente' });

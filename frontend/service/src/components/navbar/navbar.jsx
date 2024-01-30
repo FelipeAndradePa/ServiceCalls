@@ -13,9 +13,9 @@ class Navbar extends React.Component {
                         <img src={img} alt="Techline" className='w-full md:w-1/2 lg:w-3/4 xl:w-5/6'/>
                     </div>
                     <div className='space-y-5 py-14'>
-                        <Button path='/' name='Novos' icon='plus'></Button>
-                        <Button path='views/progress/progress' name='Em Andamento' icon='bars-progress'></Button>
-                        <Button path='views/finalized/finalized' name='Finalizados' icon='check'></Button>
+                        <Button path='new' name='Novos' icon='plus'></Button>
+                        <Button path='progress' name='Em Andamento' icon='bars-progress'></Button>
+                        <Button path='finalized' name='Finalizados' icon='check'></Button>
                     </div>
                 </div>
             </nav>
