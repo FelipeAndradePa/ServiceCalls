@@ -16,6 +16,7 @@ const PrivateRoute = ({element}) => {
             headers: {Authorization: token},
           });
           if(response.status === 200) {
+            console.log(response.status);
             setIsAuthenticated(true);
             setLoading(false);
           } else {
@@ -31,7 +32,7 @@ const PrivateRoute = ({element}) => {
       };
       checkAuthentication();
     }, [token]);
-
+    
     return loading ? null : isAuthenticated ? element : <Navigate to='/' />
 };
 

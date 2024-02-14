@@ -2,10 +2,13 @@ import React from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import img from '../../assets/logo.png';
+import { configureStore } from 'redux';
+
 
 const getToken = () => localStorage.getItem('token');
 const setToken = (token) => localStorage.setItem('token', token);
-const removeToken = () => localStorage.removeItem('token');
+const setUsername = (username) => localStorage.setItem('username', username);
+const getUsername = () => localStorage.getItem('username');
 
 const Login = () => {
     const navigate = useNavigate();
@@ -20,6 +23,7 @@ const Login = () => {
         const { username, password } = state;
 
         try {
+            setUsername(username);
             const response = await axios.post('http://localhost:3001/login', { username, password });
             setState((prev) => ({ ...prev, token: response.data.token }));
             console.log(response.data.token);
@@ -51,7 +55,7 @@ const Login = () => {
     );
 }
 
-export { setToken, getToken, removeToken };
+export { getToken, getUsername };
 export default Login;
 
 

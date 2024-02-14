@@ -37,7 +37,7 @@ class New extends React.Component {
         return(
             <div>
                 <div className='font-sans'>
-                    <Title title='Novos Chamados' subtitle='Acompanhe os novos chamados'></Title>
+                    <Title title='Novos Chamados' subtitle='Acompanhe os novos chamados' icon='plus'></Title>
                 </div>
                 <div className='my-16'>
                     <table className='w-5/6 mb-8 divide-y divide-gray-200'>
