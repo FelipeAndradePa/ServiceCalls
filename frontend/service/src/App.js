@@ -8,6 +8,7 @@ import Progress from './views/progress/progress';
 import New from './views/new/new';
 import PrivateRoute from './components/auth/auth';
 import Initial from './views/initial/initial';
+import Register from './views/register/register';
 
 /*O PrivateRoute recebe como element a view que será carregada*/
 function App() {
@@ -16,6 +17,7 @@ function App() {
       <Router>
         <Routes>
           <Route path='/' element={<Login />} /> 
+          <Route path='/register' element={<Register />} /> 
           <Route path='/content' element={<Content/>}>
               <Route path='' element={<PrivateRoute element={<Initial />}/>}/>
 

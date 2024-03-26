@@ -4,7 +4,7 @@ const cors = require("cors");
 const morgan = require("morgan"); // middleware registro de solicitações HTTP (log de requisições)
 let server = null
 
-async function start(api) { // função assíncrona para iniciar o servidor
+async function start(api, repository) { // função assíncrona para iniciar o servidor
     const app = express(); // inicia o express
     app.use(cors());
     app.use(morgan("dev")); // usa o morgan para registrar log de requisições
@@ -16,7 +16,7 @@ async function start(api) { // função assíncrona para iniciar o servidor
         res.sendStatus(500);
     })
 
-    api(app);
+    api(app, repository);
     server = app.listen(process.env.PORT);
     return server;
 }

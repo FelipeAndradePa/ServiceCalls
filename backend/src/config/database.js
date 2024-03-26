@@ -1,4 +1,4 @@
-/*const mysql = require("mysql2/promise"); //fornece uma abordagem mais limpa e prática para trabalhar com promises
+const mysql = require("mysql2/promise"); //fornece uma abordagem mais limpa e prática para trabalhar com promises
 let connection = null  //variável de monitoramento para a existência de conexão
 
 async function connect() {
@@ -25,4 +25,4 @@ async function disconnect() {
     return true;
 }
 
-module.exports = {connect, disconnect}*/
+module.exports = {connect, disconnect}
