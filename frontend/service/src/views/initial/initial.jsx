@@ -1,23 +1,39 @@
-/*Rastrear a empresa que está enviando o chamado através do usuario*/
+/*Rastrear a company que está enviando o chamado através do usuario*/
 import React, { useState } from 'react';
+import axios from 'axios';
 import './initial.css';
 import { getUsername } from '../login/login';
 import Title from '../../components/title/title';
 import Login from '../login/login';
 
 const Formulario = () => {
-    const [nome, setNome] = useState('');
-    const [empresa, setEmpresa] = useState('');
-    const [email, setEmail] = useState('');
-    const [assunto, setAssunto] = useState('');
-    const [descricao, setDescricao] = useState('');
 
-    const handleSubmit = (event) => {
+    const [state, setState] = React.useState({
+        name: '',
+        company: '',
+        email: '',
+        subject: '',
+        description: ''
+    });
+
+    const handleSubmit = async (event) => {
+
         event.preventDefault();
-        // Lógica para lidar com os dados do formulário
-        console.log('Nome:', nome);
-        console.log('Email:', email);
-        console.log('Senha:', senha);
+        const { name, company, email, subject, description } = state;
+
+        try {
+            const response = await axios.post('http://localhost:3001/new', { name, company, email, subject, description });
+            setState({
+                name: '',
+                company: '',
+                email: '',
+                subject: '',
+                description: ''
+            });
+
+        } catch (error) {
+            console.error('Erro ao enviar formulário ', error.response.data.error);
+        }
     };
 
     return (
@@ -46,30 +62,30 @@ const Formulario = () => {
                 <form onSubmit={handleSubmit}>
                     <div className='flex justify-between'>
                         <div className="mb-4">
-                            <label htmlFor="nome" className="block text-sm font-medium text-gray-600">
+                            <label htmlFor="name" className="block text-sm font-medium text-gray-600">
                                 Nome
                             </label>
                             <input
                                 type="text"
-                                id="nome"
-                                name="nome"
-                                value={nome}
-                                onChange={(e) => setNome(e.target.value)}
+                                id="name"
+                                name="name"
+                                value={state.name}
+                                onChange={(e) => setState((prev) => ({ ...prev, name: e.target.value }))}
                                 className="mt-2 p-2 w-96 border rounded-md"
                                 required
                             />
                         </div>
 
                         <div className="mb-4">
-                            <label htmlFor="empresa" className="block text-sm font-medium text-gray-600">
+                            <label htmlFor="company" className="block text-sm font-medium text-gray-600">
                                 Empresa
                             </label>
                             <input
                                 type="text"
-                                id="empresa"
-                                name="empresa"
-                                value={empresa}
-                                onChange={(e) => setEmpresa(e.target.value)}
+                                id="company"
+                                name="company"
+                                value={state.company}
+                                onChange={(e) => setState((prev) => ({ ...prev, company: e.target.value }))}
                                 className="mt-2 p-2 w-96 border rounded-md"
                                 required
                             />
@@ -84,23 +100,23 @@ const Formulario = () => {
                                 type="email"
                                 id="email"
                                 name="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                value={state.email}
+                                onChange={(e) => setState((prev) => ({ ...prev, email: e.target.value }))}
                                 className="mt-2 p-2 w-96 border rounded-md"
                                 required
                             />
                         </div>
 
                         <div className="mb-6">
-                            <label htmlFor="assunto" className="block text-sm font-medium text-gray-600">
+                            <label htmlFor="subject" className="block text-sm font-medium text-gray-600">
                                 Assunto
                             </label>
                             <input
                                 type="text"
-                                id="assunto"
-                                name="assunto"
-                                value={assunto}
-                                onChange={(e) => setAssunto(e.target.value)}
+                                id="subject"
+                                name="subject"
+                                value={state.subject}
+                                onChange={(e) => setState((prev) => ({ ...prev, subject: e.target.value }))}
                                 className="mt-2 p-2 w-96 border rounded-md"
                                 required
                             />
@@ -108,15 +124,15 @@ const Formulario = () => {
                     </div>
                     <div className='mt-4'>
                         <div className="mb-6">
-                            <label htmlFor="descricao" className="block text-sm font-medium text-gray-600">
+                            <label htmlFor="description" className="block text-sm font-medium text-gray-600">
                                 Descrição
                             </label>
                             <textarea
                                 type="text"
-                                id="descricao"
-                                name="descricao"
-                                value={descricao}
-                                onChange={(e) => setDescricao(e.target.value)}
+                                id="description"
+                                name="description"
+                                value={state.description}
+                                onChange={(e) => setState((prev) => ({ ...prev, description: e.target.value }))}
                                 className="mt-2 p-2 w-full h-32 border rounded-md"
                                 required
                             />

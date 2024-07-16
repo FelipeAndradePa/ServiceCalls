@@ -2,6 +2,8 @@ require("express-async-errors") // biblioteca para tratamento de erros assíncro
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan"); // middleware registro de solicitações HTTP (log de requisições)
+const sequelize = require('../models');
+
 let server = null
 
 async function start(api, repository) { // função assíncrona para iniciar o servidor
@@ -10,7 +12,10 @@ async function start(api, repository) { // função assíncrona para iniciar o s
     app.use(morgan("dev")); // usa o morgan para registrar log de requisições
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
-
+    // Autenticar a conexão com o banco de dados
+    await sequelize.authenticate();
+    // Sincronizar os modelos sem recriar as tabelas
+    await sequelize.sync({ alter: true });
     app.use((err, req, res, next) => {  // definição do middleware de tratamento de erros
         console.error(err);
         res.sendStatus(500);

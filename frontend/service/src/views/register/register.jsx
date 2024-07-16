@@ -17,8 +17,7 @@ const Register = () => {
 
         try {
             const response = await axios.post('http://localhost:3001/register', { email, username, company, password });
-            setState((prev) => ({ ...prev, email: response.data.email }));
-            console.log(response.data.email);
+            console.log(response.data);
             navigate('/');
         } catch (error) {
             console.error('Erro ao cadastrar usuário ', error.response.data.error);

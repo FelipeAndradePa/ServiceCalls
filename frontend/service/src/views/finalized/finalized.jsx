@@ -1,58 +1,91 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import ReactPaginate from 'react-paginate';
 import Title from '../../components/title/title';
 import '../../../node_modules/react-paginate/theme/basic/react-paginate.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './finalized.css';
+import {format} from 'date-fns';
+import Modal from '../modal/modal';
 
 const Finalized = () => {
+
+    const [dados, setDados] = useState([]);
     const [paginaAtual, setPaginaAtual] = useState(0);
-    const itensPorPagina = 1;
-    const dados = [
-        {id: 1, protocolo: '2024010821330', data: '08/01/2024', hora: '21:40', empresa: 'Techline', solicitante: 'Felipe Andrade', status: 'Não atendido'},
-        {id: 2, protocolo: '2024010821330', data: '08/01/2024', hora: '21:41', empresa: 'Techline', solicitante: 'Felipe Andrade', status: 'Não atendido'},
-        {id: 3, protocolo: '2024010821330', data: '08/01/2024', hora: '21:42', empresa: 'Techline', solicitante: 'Felipe Andrade', status: 'Não atendido'}
-    ];
+    const [selectedCall, setSelectedCall] = useState(null)
+    const itensPorPagina = 10;
+    const indiceInicial = paginaAtual * itensPorPagina;
+    const indiceFinal = indiceInicial + itensPorPagina;
+    const dadosPaginados = dados.slice(indiceInicial, indiceFinal);
+
+    useEffect(() => {
+
+        const fetchData = async () => {
+
+            try {
+                const response = await axios.get('http://localhost:3001/finalized');
+                const result = response.data;
+
+                if (result.success) {
+                    setDados(result.data);
+                }
+                else {
+                    console.error('Erro ao obter dados: ', result.message)
+                }
+            } catch (error) {
+                console.error('Erro ao obter dados: ', error);
+            }
+        }
+
+        fetchData();
+    }, [])
 
     const handlePaginaClicada = (dadosPagina) => {
         setPaginaAtual(dadosPagina.selected);
     };
 
-    const indiceInicial = paginaAtual * itensPorPagina;
-    const indiceFinal = indiceInicial + itensPorPagina;
-    const dadosPaginados = dados.slice(indiceInicial, indiceFinal);
+    const openModal = (call) => {
+        setSelectedCall(call);
+    };
 
-    return(
-        <div>
+    return (
+        <div className='w-full'>
             <div className='font-sans'>
                 <Title title='Chamados Finalizados' subtitle='Acompanhe os chamados finalizados' icon='check'></Title>
             </div>
             <div className='my-16'>
-                <table className='w-5/6 mb-8 divide-y divide-gray-200'>
+                <table className='w-full mb-8'>
                     <thead>
                         <tr>
-                            <th className='py-3 px-14 text-center text-slate-100 bg-sky-900'>Protocolo</th>
-                            <th className='py-3 px-14 text-center text-slate-100 bg-sky-900'>Data</th>
-                            <th className='py-3 px-14 text-center text-slate-100 bg-sky-900'>Hora</th>
-                            <th className='py-3 px-14 text-center text-slate-100 bg-sky-900'>Empresa</th>
-                            <th className='py-3 px-14 text-center text-slate-100 bg-sky-900'>Solicitante</th>
-                            <th className='py-3 px-14 text-center text-slate-100 bg-sky-900'>Status</th>
+                            <th className='py-3 text-center text-slate-100 bg-sky-900'>Protocolo</th>
+                            <th className='py-3 text-center text-slate-100 bg-sky-900'>Data</th>
+                            <th className='py-3 text-center text-slate-100 bg-sky-900'>Hora</th>
+                            <th className='py-3 text-center text-slate-100 bg-sky-900'>Empresa</th>
+                            <th className='py-3 text-center text-slate-100 bg-sky-900'>Solicitante</th>
+                            <th className='py-3 text-center text-slate-100 bg-sky-900'>Status</th>
                         </tr>
                     </thead>
-                    <tbody className='bg-white divide-y divide-gray-200'> 
-                        {dadosPaginados.map((item) => (
-                            <tr key={item.id}>
-                                <th className='py-3 font-medium'>{item.protocolo}</th>
-                                <th className='py-3 font-medium'>{item.data}</th>
-                                <th className='py-3 font-medium'>{item.hora}</th>
-                                <th className='py-3 font-medium'>{item.empresa}</th>
-                                <th className='py-3 font-medium'>{item.solicitante}</th>
-                                <th className='py-3 font-medium'>{item.status}</th>
+                    <tbody className='bg-white'>
+                        {dadosPaginados.map((item, id) => (
+                            <tr key={id} className={id % 2 === 0 ? 'bg-white' : 'bg-gray-100'}>
+                                <td className='py-3 text-center font-medium'>{item.protocolo}</td>
+                                <td className='py-3 text-center font-medium'>{format(new Date(item.data), 'dd/MM/yyyy')}</td>
+                                <td className='py-3 text-center font-medium'>{item.hora.slice(0, 5)}</td>
+                                <td className='py-3 text-center font-medium'>{item.empresa}</td>
+                                <td className='py-3 text-center font-medium'>{item.solicitante}</td>
+                                <td className='py-3 text-center font-medium'>{item.status}</td>
+                                <td className='bg-white py-3 text-end font-medium'>
+                                    <button className='rounded-full size-6 bg-green-700 text-white' onClick={() => openModal(item)}>
+                                       <FontAwesomeIcon icon='plus'/>
+                                    </button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
-                <ReactPaginate 
-                    className="react-paginate" 
+                {selectedCall && <Modal call={selectedCall} onClose={() => setSelectedCall(null)} />}
+                <ReactPaginate
+                    className="react-paginate"
                     pageCount={Math.ceil(dados.length / itensPorPagina)}
                     nextLabel="próximo >"
                     previousLabel="< anterior"
