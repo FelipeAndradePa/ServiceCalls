@@ -16,6 +16,8 @@ async function start(api, repository) { // função assíncrona para iniciar o s
     await sequelize.authenticate();
     // Sincronizar os modelos sem recriar as tabelas
     await sequelize.sync({ alter: true });
+    console.log('Base de dados e tabelas sincronizadas!');
+    
     app.use((err, req, res, next) => {  // definição do middleware de tratamento de erros
         console.error(err);
         res.sendStatus(500);

@@ -16,7 +16,7 @@ const Ticket = sequelize.define('Ticket', {
         allowNull: false
     },
     email: {
-        type: DataTypes.TEXT,
+        type: DataTypes.STRING,
         allowNull: false
     },
     motivo: {

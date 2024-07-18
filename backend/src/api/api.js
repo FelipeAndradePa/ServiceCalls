@@ -49,10 +49,10 @@ module.exports = (app, repository) => {
     // rota para envio de um novo chamado
     app.post('/new', async (req, res) => {
 
-        const { name, company, email, subject, description } = req.body;
-
+        const newTicket = req.body;
+        
         try {
-            const result = await repository.newCall(name, company, email, subject, description);
+            const result = await repository.newCall(newTicket);
             res.status(201).json({ success: true, message: result.message});
         } catch (error) {
             console.error('Erro ao cadastrar usuário:', error);

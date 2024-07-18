@@ -1,17 +1,24 @@
 const database = require('../config/database');
+const Ticket = require('../models/ticket');
+const sequelize = require('../models');
 
-async function newCall (name, company, email, subject, description) {
+async function newCall (newTicket) {
+
+    const t = await sequelize.transaction();
 
     try {
-        date = getDate();
-        hour = getHour();
-        protocol = getProtocol();
-        statusCall = 'Novo';
-        const query = 'INSERT INTO chamados (protocolo, data, hora, empresa, solicitante, email, motivo, explicacao, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
-        conexao = await database.connect();
-        await conexao.execute(query, [protocol, date, hour, company, name, email, subject, description, statusCall]);
+        const solicitante = newTicket.name;
+        const empresa = newTicket.company;
+        const email = newTicket.email;
+        const motivo = newTicket.subject;
+        const explicacao = newTicket.description;
+        protocolo = getProtocol();
+        status = 'Novo';
+        const ticket = await Ticket.create({ solicitante, empresa, email, motivo, explicacao, protocolo, status }, { t });
 
-        return {sucess: true, message: "Dados inseridos com sucesso!"};
+        await t.commit();
+        // MELHORAR O TRATAMENTO DA RESPOSTA
+        res.status(201).json(ticket);
 
     } catch (error) {
         console.error('Erro ao inserir dados:', error);
@@ -92,22 +99,6 @@ async function getUser (email, username) {
         console.error('Erro ao selecionar os dados do usuário:', error);
         return { success: false, message: 'Erro ao selecionar os dados do usuários.' };
     }
-
-}
-
-function getDate() {
-    const date = new Date();
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Mês começa do zero
-    const year = date.getFullYear();
-    return `${year}/${month}/${day}`;
-}
-
-function getHour() {
-    const date = new Date();
-    const hour = date.getHours().toString().padStart(2, '0');
-    const minutes = date.getMinutes().toString().padStart(2, '0');
-    return `${hour}:${minutes}`;
 
 }
 
