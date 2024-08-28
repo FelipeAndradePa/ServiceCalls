@@ -25,8 +25,24 @@ const Progress = () => {
             try {
                 const response = await axios.get('http://localhost:3001/progress');
                 const result = response.data;
+                const final = result.data.map((rst) => {
+                    const dateObject = new Date(rst.created_at);
+                    console.log(dateObject);
+                    const hours = dateObject.getUTCHours().toString().padStart(2, '0');
+                    const minutes = dateObject.getUTCMinutes().toString().padStart(2, '0');
+                    const formattedTime = `${hours}:${minutes}`;
+                    const formattedDate =  dateObject.toISOString().split('T')[0];
+                    console.log(formattedTime);
+                    console.log(formattedDate);
+                    // retorna para resultado rst com as novas propriedades
+                    return {
+                        ...rst,
+                        date: formattedDate,
+                        time: formattedTime
+                    };
+                })
                 if (result.success) {
-                    setDados(result.data);
+                    setDados(final);
                 }
                 else {
                     console.error('Erro ao obter dados: ', result.message)
@@ -68,8 +84,8 @@ const Progress = () => {
                         {dadosPaginados.map((item, id) => (
                             <tr key={id} className={id % 2 === 0 ? 'bg-white' : 'bg-gray-100'}>
                                 <td className='py-3 text-center font-medium'>{item.protocolo}</td>
-                                <td className='py-3 text-center font-medium'>{format(new Date(item.data), 'dd/MM/yyyy')}</td>
-                                <td className='py-3 text-center font-medium'>{item.hora.slice(0, 5)}</td>
+                                <td className='py-3 text-center font-medium'>{item.date}</td>
+                                <td className='py-3 text-center font-medium'>{item.time}</td>
                                 <td className='py-3 text-center font-medium'>{item.empresa}</td>
                                 <td className='py-3 text-center font-medium'>{item.solicitante}</td>
                                 <td className='py-3 text-center font-medium'>{item.status}</td>

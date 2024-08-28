@@ -18,7 +18,7 @@ async function newCall (newTicket) {
 
         await t.commit();
         // MELHORAR O TRATAMENTO DA RESPOSTA
-        res.status(201).json(ticket);
+        return ticket;
 
     } catch (error) {
         console.error('Erro ao inserir dados:', error);
@@ -29,11 +29,9 @@ async function newCall (newTicket) {
 async function getNews () {
 
     try {
-        const query = 'SELECT * FROM chamados WHERE status = "Novo"';
-        conexao = await database.connect();
-        const [rows, fields] = await conexao.execute(query);
-
-        return rows;
+        const newsTickets = await Ticket.findAll({ where: { status: 'Novo'}});
+        
+        return newsTickets;
 
     } catch (error) {
         console.error('Erro ao inserir dados:', error);
@@ -44,11 +42,9 @@ async function getNews () {
 async function getProgress () {
 
     try {
-        const query = 'SELECT * FROM chamados WHERE status = "Em andamento"';
-        conexao = await database.connect();
-        const [rows, fields] = await conexao.execute(query);
-
-        return rows;
+        const progressTickets = await Ticket.findAll({ where: { status: 'Em Andamento'}});
+        
+        return progressTickets;
 
     } catch (error) {
         console.error('Erro ao inserir dados:', error);
@@ -59,11 +55,9 @@ async function getProgress () {
 async function getFinalized () {
 
     try {
-        const query = 'SELECT * FROM chamados WHERE status = "Finalizado"';
-        conexao = await database.connect();
-        const [rows, fields] = await conexao.execute(query);
-
-        return rows;
+        const finalizedTickets = await Ticket.findAll({ where: { status: 'Finalizados'}});
+        
+        return finalizedTickets;
 
     } catch (error) {
         console.error('Erro ao inserir dados:', error);
